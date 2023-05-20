@@ -326,6 +326,7 @@ put_name:
 		 * the inode of the graft path
 		 */
 
+#if 0
 		if (need_graft_path(dentry)) {
 
 			/* setup_obb_dentry()
@@ -348,6 +349,7 @@ put_name:
 				goto out;
 			}
 		}
+#endif
 
 		sdcardfs_set_lower_path(dentry, &lower_path);
 		ret_dentry =
