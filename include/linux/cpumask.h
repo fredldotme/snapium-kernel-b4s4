@@ -757,6 +757,7 @@ extern const DECLARE_BITMAP(cpu_all_bits, NR_CPUS);
 #define for_each_online_cpu(cpu)   for_each_cpu((cpu), cpu_online_mask)
 #define for_each_present_cpu(cpu)  for_each_cpu((cpu), cpu_present_mask)
 #define for_each_isolated_cpu(cpu) for_each_cpu((cpu), cpu_isolated_mask)
+#define for_each_unisolated_cpu(cpu) for_each_cpu((cpu), cpu_unisolated_mask)
 
 /* Wrappers for arch boot code to manipulate normally-constant masks */
 void init_cpu_present(const struct cpumask *src);
