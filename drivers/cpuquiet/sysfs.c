@@ -157,6 +157,12 @@ static ssize_t store_nr_min_cpus(struct cpuquiet_attribute *cattr,
 
 	mutex_lock(&cpuquiet_min_max_cpus_lock);
 
+	// Treat the same value as a no-change to the overall CPU status
+	if (new_min_cpus == cpuquiet_nr_min_cpus) {
+		mutex_unlock(&cpuquiet_min_max_cpus_lock);
+		return ret;
+	}
+
 	if (new_min_cpus > cpuquiet_nr_max_cpus) {
 		pr_err("%s: nr_min_cpus cannot be more than cpuquiet_nr_max_cpus\n",
 									__func__);
@@ -190,6 +196,12 @@ static ssize_t store_nr_max_cpus(struct cpuquiet_attribute *cattr,
 	}
 
 	mutex_lock(&cpuquiet_min_max_cpus_lock);
+
+	// Treat the same value as a no-change to the overall CPU status
+	if (new_max_cpus == cpuquiet_nr_power_max_cpus) {
+		mutex_unlock(&cpuquiet_min_max_cpus_lock);
+		return ret;
+	}
 
 	if (new_max_cpus < cpuquiet_nr_min_cpus) {
 		pr_err("%s: nr_max_cpus cannot be less than nr_min_cpus\n",

@@ -308,8 +308,6 @@ bool cpuquiet_cpu_devices_initialized(void)
  */
 void cpuquiet_switch_funcs(bool use_isolation)
 {
-	unsigned int cpu = 0;
-
 	mutex_lock(&cpuquiet_cpu_lock);
 
 	if (cpu_funcs->set_online) {
@@ -319,9 +317,6 @@ void cpuquiet_switch_funcs(bool use_isolation)
 		/* Clean up previous hotplug/isolation queued requests */
 		cpumask_clear(&cr_online_requests);
 		cpumask_clear(&cr_offline_requests);
-
-		for_each_possible_cpu(cpu)
-			cpu_funcs->set_online(cpu);
 	}
 
 	if (use_isolation) {
