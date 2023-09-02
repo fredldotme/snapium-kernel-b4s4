@@ -10236,11 +10236,15 @@ static int hdd_features_init(hdd_context_t *hdd_ctx, hdd_adapter_t *adapter)
 	sme_set_allow_adj_ch_bcn(hdd_ctx->hHal,
 			hdd_ctx->config->allow_adj_ch_bcn);
 
+#if 0
 	if (hdd_ctx->config->fIsImpsEnabled)
 		hdd_set_idle_ps_config(hdd_ctx, true);
 	else
 		hdd_set_idle_ps_config(hdd_ctx, false);
-
+#else
+	hdd_set_idle_ps_config(hdd_ctx, true);
+	wlan_hdd_set_powersave(adapter, true, hdd_ctx->config->icmp_disable_ps_val);
+#endif
 	/* Send Enable/Disable data stall detection cmd to FW */
 	sme_cli_set_command(0, WMI_PDEV_PARAM_DATA_STALL_DETECT_ENABLE,
 		hdd_ctx->config->enable_data_stall_det, PDEV_CMD);
