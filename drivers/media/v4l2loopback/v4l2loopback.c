@@ -100,6 +100,15 @@ MODULE_LICENSE("GPL");
  * compatibility hacks
  */
 
+/*
+ * fake usage of unused functions
+ */
+#ifndef HAVE__V4L2_CTRLS
+static int vidioc_queryctrl(struct file *file, void *fh, struct v4l2_queryctrl *q);
+static int vidioc_g_ctrl(struct file *file, void *fh, struct v4l2_control *c);
+static int vidioc_s_ctrl(struct file *file, void *fh, struct v4l2_control *c);
+#endif /* HAVE__V4L2_CTRLS */
+
 #ifndef HAVE__V4L2_CTRLS
 struct v4l2_ctrl_handler {
 	int error;
@@ -1235,6 +1244,7 @@ static int vidioc_querystd(struct file *file, void *fh, v4l2_std_id *norm)
 /* get ctrls info
  * called on VIDIOC_QUERYCTRL
  */
+#ifndef HAVE__V4L2_CTRLS
 static int vidioc_queryctrl(struct file *file, void *fh,
 			    struct v4l2_queryctrl *q)
 {
@@ -1292,6 +1302,7 @@ static int vidioc_g_ctrl(struct file *file, void *fh, struct v4l2_control *c)
 
 	return 0;
 }
+#endif
 
 static int v4l2loopback_set_ctrl(struct v4l2_loopback_device *dev, u32 id,
 				 s64 val)
@@ -1338,11 +1349,14 @@ static int v4l2loopback_s_ctrl(struct v4l2_ctrl *ctrl)
 		ctrl->handler, struct v4l2_loopback_device, ctrl_handler);
 	return v4l2loopback_set_ctrl(dev, ctrl->id, ctrl->val);
 }
+
+#ifndef HAVE__V4L2_CTRLS
 static int vidioc_s_ctrl(struct file *file, void *fh, struct v4l2_control *c)
 {
 	struct v4l2_loopback_device *dev = v4l2loopback_getdevice(file);
 	return v4l2loopback_set_ctrl(dev, c->id, c->value);
 }
+#endif
 
 /* returns set of device outputs, in our case there is only one
  * called on VIDIOC_ENUMOUTPUT
@@ -2443,7 +2457,7 @@ static int v4l2_loopback_add(struct v4l2_loopback_config *conf, int *ret_nr)
 	nr = err;
 	err = -ENOMEM;
 
-	if (conf && conf->card_label && *(conf->card_label)) {
+	if (conf && /*conf->card_label &&*/ *(conf->card_label)) {
 		snprintf(dev->card_label, sizeof(dev->card_label), "%s",
 			 conf->card_label);
 	} else {
@@ -2936,15 +2950,3 @@ MODULE_ALIAS_MISCDEV(MISC_DYNAMIC_MINOR);
 
 module_init(v4l2loopback_init_module);
 module_exit(v4l2loopback_cleanup_module);
-
-/*
- * fake usage of unused functions
- */
-#ifdef HAVE__V4L2_CTRLS
-static int vidioc_queryctrl(struct file *file, void *fh,
-			    struct v4l2_queryctrl *q) __attribute__((unused));
-static int vidioc_g_ctrl(struct file *file, void *fh, struct v4l2_control *c)
-	__attribute__((unused));
-static int vidioc_s_ctrl(struct file *file, void *fh, struct v4l2_control *c)
-	__attribute__((unused));
-#endif /* HAVE__V4L2_CTRLS */
