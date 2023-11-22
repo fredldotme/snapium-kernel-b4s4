@@ -301,10 +301,18 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 	  else if [ -x /bin/bash ]; then echo /bin/bash; \
 	  else echo sh; fi ; fi)
 
-HOSTCC       = gcc
-HOSTCXX      = g++
+HOSTCC       := gcc
+HOSTCXX      := g++
 HOSTCFLAGS   := -Wall -Wmissing-prototypes -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu89
 HOSTCXXFLAGS = -O2
+
+# Workaround for Darwin (again)
+BUILD_HOST_KERNEL := $(shell uname -s)
+ifeq ($(BUILD_HOST_KERNEL),Darwin)
+	HOSTCC := /usr/bin/clang
+	HOSTCXX := /usr/bin/clang++
+	HOSTLD := /usr/bin/clang
+endif
 
 ifeq ($(shell $(HOSTCC) -v 2>&1 | grep -c "clang version"), 1)
 HOSTCFLAGS  += -Wno-unused-value -Wno-unused-parameter \

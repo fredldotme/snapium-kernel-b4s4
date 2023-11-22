@@ -96,7 +96,8 @@ hostcxx_flags  = -Wp,-MD,$(depfile) $(__hostcxx_flags)
 BUILD_HOST_KERNEL := $(shell uname -s)
 HOSTLDFLAGSADD :=
 ifeq ($(BUILD_HOST_KERNEL),Darwin)
-       HOSTLDFLAGSADD := -Wl,-no_fixup_chains
+       HOSTLD = /usr/bin/clang
+       HOSTLDFLAGSADD := -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
 endif
 
 # Create executable from a single .c file
