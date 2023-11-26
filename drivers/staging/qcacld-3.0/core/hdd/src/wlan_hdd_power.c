@@ -2358,7 +2358,7 @@ static int __wlan_hdd_cfg80211_set_txpower(struct wiphy *wiphy,
 	hHal = pHddCtx->hHal;
 
 	if (0 != sme_cfg_set_int(hHal, WNI_CFG_CURRENT_TX_POWER_LEVEL, dbm)) {
-		hdd_err("sme_cfg_set_int failed for tx power %hu",
+		hdd_err("sme_cfg_set_int failed for tx power %d",
 				dbm);
 		return -EIO;
 	}

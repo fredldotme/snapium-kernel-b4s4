@@ -1891,6 +1891,16 @@ EXTRA_CFLAGS += -Wmaybe-uninitialized
 endif
 EXTRA_CFLAGS += -Wmissing-prototypes
 
+# Fredlsauce
+EXTRA_CFLAGS += -Wno-null-pointer-subtraction
+EXTRA_CFLAGS += -Wno-unused-but-set-variable
+EXTRA_CFLAGS += -Wno-sometimes-uninitialized
+EXTRA_CFLAGS += -Wno-initializer-overrides
+EXTRA_CFLAGS += -Wno-unused-const-variable
+EXTRA_CFLAGS += -Wno-uninitialized
+EXTRA_CFLAGS += -Wno-unused-but-set-parameter
+EXTRA_CFLAGS += -Wno-format -Wno-void-pointer-to-enum-cast
+
 ifeq ($(call cc-option-yn, -Wheader-guard),y)
 EXTRA_CFLAGS += -Wheader-guard
 endif

@@ -1578,4 +1578,4 @@ module_init(cnss_sdio_init);
 module_exit(cnss_sdio_exit);
 
 MODULE_LICENSE("GPL v2");
-MODULE_DESCRIPTION(DEVICE "CNSS SDIO Driver");
+MODULE_DESCRIPTION("CNSS SDIO Driver");

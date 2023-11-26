@@ -306,6 +306,7 @@ static notrace int do_boottime(const struct vdso_data *vd, struct timespec *ts)
 
 #endif /* ARCH_PROVIDES_TIMER */
 
+notrace int __vdso_clock_gettime(clockid_t clock, struct timespec *ts);
 notrace int __vdso_clock_gettime(clockid_t clock, struct timespec *ts)
 {
 	const struct vdso_data *vd = __get_datapage();

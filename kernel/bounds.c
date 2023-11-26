@@ -12,6 +12,7 @@
 #include <linux/log2.h>
 #include <linux/spinlock_types.h>
 
+void foo(void);
 void foo(void)
 {
 	/* The enum constants to put into include/generated/bounds.h */

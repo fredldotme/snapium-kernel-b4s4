@@ -290,5 +290,5 @@ static void __exit tsens_tm_deinit(void)
 }
 module_exit(tsens_tm_deinit);
 
-MODULE_ALIAS("platform:" TSENS_DRIVER_NAME);
+MODULE_ALIAS("platform:msm-tsens");
 MODULE_LICENSE("GPL v2");
