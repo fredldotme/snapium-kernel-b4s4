@@ -330,6 +330,9 @@ if [ ! -z ${RTIC_MPGEN+x} ]; then
 	KBUILD_VMLINUX_MAIN+=$RTIC_MP_O
 fi
 
+info MODINFO modules.builtin.modinfo
+${OBJCOPY} -j .modinfo -O binary vmlinux.o modules.builtin.modinfo
+
 kallsymso=""
 kallsyms_vmlinux=""
 if [ -n "${CONFIG_KALLSYMS}" ]; then
